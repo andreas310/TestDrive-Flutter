@@ -2,7 +2,15 @@
 
 A new Flutter application.
 
+## Example app
+
+
 ## Getting Started
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+1. Prepare your recipe :
+   https://flutter.io/get-started/install/
+
+2. Open with your editor
+
+3. Wait and your Flutter is ready
+

@@ -18,22 +18,33 @@ class MyApp extends StatelessWidget {
         // "hot reload" (press "r" in the console where you ran "flutter run",
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.white,
       ),
       home: RandomWords(),
     );
   }
 }
 
+
+class RandomWords extends StatefulWidget {
+  @override
+  RandomWordsState createState() => new RandomWordsState();
+}
+
+
 class RandomWordsState extends State<RandomWords>{
   //todo Add build method
-  final _suggestions = <WordPair>[];
-  final _biggerFont = const TextStyle(fontSize: 18.0);
+  final List<WordPair> _suggestions = <WordPair>[];
+  final Set<WordPair> _saved = new Set<WordPair>();
+  final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
         title: Text('Startup Name Generator'),
+        actions: <Widget>[
+          new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved)
+        ],
       ),
       body: _buildSuggestions(),
     );
@@ -67,17 +78,58 @@ class RandomWordsState extends State<RandomWords>{
   }
 
   Widget _buildRow(WordPair pair){
+    final bool alreadySaved = _saved.contains(pair);
     return ListTile(
       title: Text(
         pair.asPascalCase,
         style: _biggerFont,
       ),
+      trailing: new Icon(
+        alreadySaved ? Icons.favorite : Icons.favorite_border,
+        color: alreadySaved ? Colors.red : null,
+      ),
+      onTap: (){
+        setState(() {
+          if(alreadySaved){
+            _saved.remove(pair);
+          }else{
+            _saved.add(pair);
+          }
+        });
+      },
+    );
+  }
+
+  void _pushSaved() {
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+          builder: (BuildContext context){
+            final Iterable<ListTile> tiles = _saved.map(
+                (WordPair pair){
+                  return new ListTile(
+                    title: Text(
+                      pair.asPascalCase,
+                      style: _biggerFont,
+                    ),
+                  );
+                },
+            );
+
+            final List<Widget> divided = ListTile.divideTiles(
+              context: context,
+              tiles: tiles,
+            ).toList();
+
+            return new Scaffold(
+              appBar: new AppBar(
+                title: const Text('Saved Suggestions'),
+              ),
+              body: new ListView(children : divided),
+            );
+          }
+      )
     );
   }
 
 }
 
-class RandomWords extends StatefulWidget {
-  @override
-  RandomWordsState createState() => new RandomWordsState();
-}

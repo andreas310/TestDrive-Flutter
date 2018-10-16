@@ -2,9 +2,6 @@
 
 A new Flutter application.
 
-## Example app
-https://github.com/andreas310/TestDrive-Flutter/blob/master/flutt.jpg
-
 ## Getting Started
 
 1. Prepare your recipe :
@@ -14,3 +11,5 @@ https://github.com/andreas310/TestDrive-Flutter/blob/master/flutt.jpg
 
 3. Wait and your Flutter is ready
 
+## Example app
+![alt text](https://github.com/andreas310/TestDrive-Flutter/blob/master/flutt.jpg)
